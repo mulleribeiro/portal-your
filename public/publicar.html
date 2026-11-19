@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baixar e publicar · YOUR Magazine</title>
+<style>
+:root{color-scheme:dark;--bg:#12060a;--card:#1d0a12;--border:#462130;--text:#f7eef0;--muted:#c3a8b1;--accent:#e9a7b8;--gold:#d9b26a}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.7 system-ui,sans-serif}a{color:var(--accent)}header{border-bottom:1px solid var(--border);padding:22px max(20px,calc((100% - 1000px)/2));display:flex;align-items:center;justify-content:space-between;gap:20px}header img{width:160px;height:auto}main{max-width:1000px;margin:auto;padding:48px 20px 90px}h1{font-size:clamp(32px,5vw,54px);line-height:1.1;letter-spacing:-.03em;margin:12px 0 22px}h2{line-height:1.3;font-size:24px;margin:0 0 14px}h3{margin:20px 0 8px}p{color:var(--muted);margin:10px 0}strong{color:var(--text)}.tag{text-transform:uppercase;letter-spacing:.18em;font-size:11px;font-weight:700;color:var(--gold)}.box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:26px;margin:20px 0}.step{display:grid;grid-template-columns:44px 1fr;gap:16px}.number{display:grid;place-items:center;width:38px;height:38px;background:#3a0b1c;color:var(--accent);border-radius:11px;font-weight:800}.buttons{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0}.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:1px solid var(--border);border-radius:100px;padding:10px 22px;text-decoration:none;font-weight:650;font-size:14px}.primary{color:#12060a;background:var(--accent);border-color:var(--accent)}.primary:hover{background:#f3c5d0}.note{border-left:3px solid var(--gold);padding:12px 18px;background:#d9b26a0b;border-radius:0 12px 12px 0}.row{background:#12060a;border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:9px 0;overflow-wrap:anywhere}code{font:13px/1.5 ui-monospace,monospace;color:var(--accent);overflow-wrap:anywhere}button.copy{border:1px solid var(--border);background:transparent;color:var(--text);border-radius:8px;padding:6px 10px;cursor:pointer;flex-shrink:0}li{padding:4px 0;color:var(--muted)}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;border-bottom:1px solid var(--border);padding:12px 8px;vertical-align:top}th{color:var(--accent)}.footer{margin-top:40px;font-size:13px;color:var(--muted)}.file{color:var(--accent);font-size:13px}.links{display:flex;flex-wrap:wrap;gap:15px;font-size:13px}.checks{list-style:none;padding-left:0}.checks li:before{content:'✓';margin-right:10px;color:var(--accent)}@media(max-width:600px){header{padding:18px}header img{width:130px}main{padding-top:32px}.box{padding:18px}.step{grid-template-columns:32px 1fr;gap:12px}.number{width:30px;height:30px}.row{align-items:start}h2{font-size:21px}table{font-size:12px}}
+</style>
+</head>
+<body>
+<header><img src="/brand/logo.png" alt="YOUR 10 anos"><nav class="links"><a href="/pt">Ver o site</a><a href="/admin">Admin</a></nav></header>
+<main>
+<span class="tag">Publicação · Cloudflare Workers</span>
+<h1>Seu portal, pronto para sair do preview.</h1>
+<p>Baixe o projeto-fonte completo e siga as etapas abaixo. O pacote inclui as páginas, o Admin, o catálogo de serviços, as APIs e a configuração OpenNext para Workers.</p>
+<div class="buttons"><a class="button primary" href="/api/project-download" data-project-download download="your-magazine-cloudflare.zip">↓ Preparar arquivo ZIP</a><a class="button" href="#passos">Ver o passo a passo</a></div>
+<p class="file" id="file-info">Arquivo ZIP · código-fonte · sem senhas ou arquivo .env</p>
+<div class="note" role="note"><strong>Erro 403 no link antigo?</strong> Use esta página dentro da prévia atual na plataforma. Primeiro clique em <strong>Preparar arquivo ZIP</strong>; depois, em <strong>Salvar ZIP no computador</strong>. Não é preciso abrir outro domínio.</div>
+<div class="note"><strong>Importante:</strong> este site não é estático. <strong>Não arraste o ZIP para Cloudflare Pages.</strong> O Admin, as pautas, os uploads e os PDFs precisam de <strong>Workers + PostgreSQL</strong>. Não é necessário manter um segundo servidor Node.</div>
+
+<div class="box"><span class="tag">Alternativa mais prática</span><h2>Publicar sem baixar o ZIP</h2><p>Se a plataforma bloquear o arquivo, não precisa clicar repetidamente. Abra o <a href="/admin">Admin</a> e clique em <strong>Publicar sem ZIP</strong>. O portal pode enviar os arquivos diretamente ao seu repositório GitHub, usando sua autorização temporária com permissão <strong>Contents: Read and write</strong>.</p><p>O token não é salvo no banco e deve ser inserido somente no formulário do portal, nunca na conversa. Use um repositório privado novo ou dedicado. Depois da confirmação do GitHub, continue abaixo na etapa de conectar o repositório ao Cloudflare.</p><div class="buttons"><a class="button primary" href="/admin">Abrir o Admin e publicar sem ZIP</a></div><p>Esse envio não publica o site sozinho. São necessários o deploy na sua conta Cloudflare e o banco PostgreSQL de produção. Sem autorização dessas contas não há como gerar um link público permanente por aqui.</p></div>
+<div class="box" id="passos"><div class="step"><span class="number">1</span><div><h2>Baixe e extraia o arquivo</h2><p>Clique em <strong>Preparar arquivo ZIP</strong> acima. Quando o botão mudar, clique em <strong>Salvar ZIP no computador</strong>. Depois, escolha <strong>Extrair tudo</strong> no computador. Abra a pasta <strong>your-magazine</strong>. Ela deve conter <code>package.json</code>, <code>wrangler.toml</code>, <code>src</code> e <code>public</code>.</p><p>O arquivo <strong>LEIA-ME-CLOUDFLARE.md</strong>, dentro do ZIP, contém este guia e informações técnicas adicionais.</p></div></div></div>
+
+<div class="box"><div class="step"><span class="number">2</span><div><h2>Crie o banco de dados</h2><p>Recomendo <a href="https://neon.tech" target="_blank" rel="noreferrer">Neon</a>: crie um projeto PostgreSQL, abra <strong>Connect</strong> e copie a <strong>connection string</strong> com SSL.</p><p>Você também pode usar o PostgreSQL do Supabase. Nesse caso, copie a conexão do banco/pooler, não a chave pública da API.</p><div class="note">Não use <code>127.0.0.1</code> ou <code>localhost</code>: esse banco só existe dentro do preview. Use um banco novo, público e dedicado ao portal.</div></div></div></div>
+
+<div class="box"><div class="step"><span class="number">3</span><div><h2>Coloque os arquivos no GitHub</h2><ol><li>Crie um repositório <strong>privado</strong> chamado <strong>your-magazine</strong> em <a href="https://github.com" target="_blank" rel="noreferrer">github.com</a>.</li><li>Em <strong>Add file → Upload files</strong>, envie o <strong>conteúdo da pasta extraída</strong>, não o ZIP.</li><li>Confirme que <code>package.json</code> está na raiz do repositório.</li><li>Se o GitHub limitar a quantidade de arquivos do upload web, envie em etapas ou use o <strong>GitHub Desktop</strong>.</li><li>Não envie arquivos <code>.env</code> nem pastas <code>node_modules</code> e <code>.next</code>.</li></ol></div></div></div>
+
+<div class="box"><div class="step"><span class="number">4</span><div><h2>Conecte o repositório ao Cloudflare</h2><ol><li>No <a href="https://dash.cloudflare.com" target="_blank" rel="noreferrer">painel Cloudflare</a>, vá em <strong>Workers & Pages → Create application → Connect Git / Import repository</strong>.</li><li>Escolha GitHub e selecione seu repositório.</li><li>Escolha <strong>Workers</strong>, com o nome <code>your-magazine</code>, branch <code>main</code> e diretório raiz em branco.</li><li>Preencha os dois comandos abaixo e confirme o deploy.</li></ol>
+<p class="tag">Build command</p><div class="row"><code id="build-command">node scripts/cloudflare.mjs build</code><button class="copy" data-copy="build-command">Copiar</button></div>
+<p class="tag">Deploy command</p><div class="row"><code id="deploy-command">node scripts/cloudflare.mjs deploy</code><button class="copy" data-copy="deploy-command">Copiar</button></div>
+<p>Se houver um campo de instalação: <code>npm ci</code>. Em variáveis de build, use <code>NODE_VERSION</code> = <code>22</code>. Normalmente o Cloudflare instala as dependências automaticamente pelo <code>package-lock.json</code>.</p>
+<p>O build cria <code>.open-next/worker.js</code>. Usar apenas <code>npm run build</code> não gera o Worker.</p>
+</div></div></div>
+
+<div class="box"><div class="step"><span class="number">5</span><div><h2>Cadastre os segredos do Worker</h2><p>Abra <strong>Workers & Pages → your-magazine → Settings → Variables and Secrets</strong>. Adicione os dois como <strong>Secret</strong>:</p>
+<table><thead><tr><th>Nome exato</th><th>O que preencher</th></tr></thead><tbody><tr><td><code>DATABASE_URL</code></td><td>A connection string PostgreSQL pública com SSL do passo 2.</td></tr><tr><td><code>ADMIN_PASSWORD</code></td><td>A senha que você definiu para o painel Admin.</td></tr></tbody></table>
+<p>Salve e confirme <strong>Deploy / Save and deploy</strong>, caso o painel solicite. Essas são variáveis de <strong>execução</strong>: não basta adicioná-las somente em Build variables.</p><p class="note">Não adicione o prefixo <code>NEXT_PUBLIC_</code>. Não cole credenciais no GitHub.</p></div></div></div>
+
+<div class="box"><div class="step"><span class="number">6</span><div><h2>Confira o site publicado</h2><p>O Cloudflare vai mostrar uma URL <code>https://your-magazine.SEU-SUBDOMINIO.workers.dev</code>. Abra-a em uma aba própria e teste:</p><ul class="checks"><li><code>/api/health</code>: deve responder <code>{"ok":true}</code>.</li><li><code>/pt</code>: o conteúdo inicial é criado no primeiro acesso; ele pode demorar mais.</li><li><code>/admin</code>: entre com a senha cadastrada em <code>ADMIN_PASSWORD</code>.</li><li>Altere um texto, recarregue e confirme que persistiu.</li><li>Envie uma pauta e confira em <strong>Admin → Central de Pautas</strong>.</li><li>Teste uma imagem enviada e um PDF.</li></ul><p>Se houver erro, veja <strong>Observability / Logs</strong> no Worker e confira os segredos. O banco remoto não foi criado na sua conta por este pacote.</p></div></div></div>
+
+<div class="box"><div class="step"><span class="number">7</span><div><h2>Adicione seu domínio</h2><ol><li>Adicione seu domínio à conta Cloudflare e conclua a alteração dos nameservers, se necessário.</li><li>No Worker, vá em <strong>Settings → Domains & Routes → Add → Custom Domain</strong>.</li><li>Digite seu domínio, confirme e aguarde o certificado HTTPS.</li><li>Se quiser, repita para <strong>www</strong>.</li><li>Só remova a publicação antiga depois de testar tudo no endereço novo.</li></ol><p>Para esse portal dinâmico, considere o plano <strong>Workers Paid</strong>. Consulte os <a href="https://developers.cloudflare.com/workers/platform/pricing/" target="_blank" rel="noreferrer">limites e preços atuais</a>.</p></div></div></div>
+
+<div class="box"><h2>O que está — e não está — no ZIP</h2><p><strong>Incluído:</strong> código-fonte, matérias e catálogo iniciais, imagens oficiais e configurações de publicação.</p><p><strong>Não incluído:</strong> senhas, tokens, banco do preview, pautas privadas recebidas e anexos enviados ao banco. Se deseja levar as alterações exclusivas do banco atual, faça uma migração PostgreSQL separada para o banco de produção.</p><p>O portal preserva o conteúdo já cadastrado em um banco existente. Atualizar o código não redefine suas edições.</p></div>
+<div class="buttons"><a class="button primary" href="/api/project-download" data-project-download download="your-magazine-cloudflare.zip">↓ Preparar arquivo ZIP</a><a class="button" href="/admin">Abrir o Admin</a></div>
+<p class="footer">YOUR Magazine · publicação com Next.js, OpenNext, Cloudflare Workers e PostgreSQL. As credenciais e o domínio são configurados na sua conta.</p>
+</main>
+<script>
+for(const b of document.querySelectorAll('[data-copy]'))b.addEventListener('click',async()=>{const v=document.getElementById(b.dataset.copy)?.textContent||'';try{await navigator.clipboard.writeText(v);b.textContent='Copiado ✓';setTimeout(()=>b.textContent='Copiar',1800)}catch{prompt('Copie este comando:',v)}});
+fetch('/api/project-download?info=1', {credentials:'same-origin',cache:'no-store'}).then(r=>r.ok?r.json():null).then(m=>{if(!m)return;document.getElementById('file-info').textContent=`ZIP de fontes · ${(m.bytes/1024/1024).toFixed(2)} MB · ${m.files} arquivos · Atualizado em ${new Date(m.generatedAt).toLocaleString('pt-BR')}`}).catch(()=>{});
+
+const downloadUrls=[];
+for (const button of document.querySelectorAll('[data-project-download]')) {
+  button.addEventListener('click', async (event) => {
+    if (button.dataset.ready === 'true') return;
+    event.preventDefault();
+    if (button.dataset.busy === 'true') return;
+    button.dataset.busy='true';
+    button.textContent='Preparando arquivo…';
+    try {
+      const response=await fetch('/api/project-download',{credentials:'same-origin',cache:'no-store'});
+      if(!response.ok) throw new Error(response.status===403?'A plataforma bloqueou o ambiente temporário. Reabra a prévia atual pela conversa.':'Não foi possível preparar o arquivo nesta prévia.');
+      const data=await response.arrayBuffer();
+      const signature=new Uint8Array(data,0,Math.min(data.byteLength,4));
+      if(signature.length<4||signature[0]!==80||signature[1]!==75||signature[2]!==3||signature[3]!==4)throw new Error('A resposta não é um ZIP. Reabra a prévia atual na plataforma.');
+      const url=URL.createObjectURL(new Blob([data],{type:'application/zip'}));
+      downloadUrls.push(url);
+      button.href=url;
+      button.dataset.ready='true';
+      button.textContent='↓ Salvar ZIP no computador';
+      document.getElementById('file-info').textContent='✓ Arquivo preparado. Clique novamente no botão para salvar no computador.';
+    } catch(error) {
+      document.getElementById('file-info').textContent=error.message;
+      button.textContent='Tentar preparar novamente';
+    } finally {button.dataset.busy='false';}
+  });
+}
+window.addEventListener('pagehide',()=>downloadUrls.forEach(url=>URL.revokeObjectURL(url)));
+</script>
+</body></html>

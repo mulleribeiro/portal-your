@@ -1,0 +1,28 @@
+name = "your-magazine"
+main = ".open-next/worker.js"
+compatibility_date = "2026-01-15"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public", "nodejs_compat_populate_process_env"]
+workers_dev = true
+keep_vars = true
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+html_handling = "none"
+
+[vars]
+NEXTJS_ENV = "production"
+
+# Add DATABASE_URL and ADMIN_PASSWORD under:
+# Workers & Pages > your-magazine > Settings > Variables and Secrets.
+# Never commit the actual credentials to this file.
+
+# Optional: use Hyperdrive instead of the DATABASE_URL secret.
+# [[hyperdrive]]
+# binding = "HYPERDRIVE"
+# id = "YOUR_HYPERDRIVE_ID"
+
+[observability]
+enabled = true
+
+# This portal does not use a second Node origin or a static Pages export.

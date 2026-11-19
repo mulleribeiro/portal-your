@@ -1,0 +1,720 @@
+{
+ "grupos": [
+  {
+   "id": "imprensa",
+   "nome": "Assessoria de imprensa",
+   "desc": "Relacionamento com jornalistas, releases, pautas e acompanhamento de resultado."
+  },
+  {
+   "id": "pacotes",
+   "nome": "Planos mensais",
+   "desc": "Combinações prontas, com melhor custo do que contratar item por item."
+  },
+  {
+   "id": "marcas",
+   "nome": "Marcas e pessoas",
+   "desc": "Posicionamento, imagem e reputação de empresas, profissionais e executivos."
+  },
+  {
+   "id": "identidade",
+   "nome": "Identidade visual",
+   "desc": "Logo, identidade completa, manual de marca e materiais de apoio."
+  },
+  {
+   "id": "revista",
+   "nome": "YOUR Magazine",
+   "desc": "Presença em revista própria do grupo, em formatos editoriais e publicitários."
+  },
+  {
+   "id": "conteudo",
+   "nome": "Conteúdo e produção",
+   "desc": "Vídeo, fotografia editorial e textos jornalísticos."
+  },
+  {
+   "id": "crise",
+   "nome": "Crise e reputação",
+   "desc": "Prevenção, plano de resposta e acompanhamento em momentos sensíveis."
+  }
+ ],
+ "itens": [
+  {
+   "id": "imp-release",
+   "grupo": "imprensa",
+   "nome": "Release profissional",
+   "desc": "Redação, revisão e adequação do release ao perfil de cada tipo de veículo (padrão de 300 palavras), com checagem de fatos antes do envio.",
+   "preco": 450,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 12,
+   "prazo": "3 dias úteis",
+   "entrega": [
+    "Release redigido e revisado",
+    "3 versões por perfil de veículo",
+    "Revisão de uma rodada"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "imp-pitch",
+   "grupo": "imprensa",
+   "nome": "Pauta com relacionamento ativo",
+   "desc": "Construção da pauta e abordagem personalizada a jornalistas e editores selecionados por editoria, com acompanhamento das respostas.",
+   "preco": 1200,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 12,
+   "prazo": "7 dias úteis",
+   "entrega": [
+    "Pauta com ângulo jornalístico",
+    "Lista de veículos e contatos por editoria",
+    "Abordagem e follow-up",
+    "Registro de retornos"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "imp-wire",
+   "grupo": "imprensa",
+   "nome": "Disparo no YOUR Newswire",
+   "desc": "Distribuição do release para a base segmentada do Banco de Mídia, em conformidade com LGPD.",
+   "preco": 600,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 12,
+   "prazo": "2 dias úteis",
+   "entrega": [
+    "Segmentação por editoria",
+    "Disparo com rastreio de abertura",
+    "Relatório do envio"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "imp-clipping",
+   "grupo": "imprensa",
+   "nome": "Clipping mensal",
+   "desc": "Monitoramento de menções da marca na imprensa e na internet, com resumo e links.",
+   "preco": 900,
+   "unidade": "mensal",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "Mensal",
+   "entrega": [
+    "Monitoramento contínuo",
+    "Resumo mensal com links",
+    "Classificação por tom"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "imp-relatorio",
+   "grupo": "imprensa",
+   "nome": "Relatório de resultados",
+   "desc": "Indicadores de pautas enviadas, retornos, publicações e próximos passos, em documento para a diretoria.",
+   "preco": 600,
+   "unidade": "mensal",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "Mensal",
+   "entrega": [
+    "Relatório mensal em PDF",
+    "Indicadores de resposta e publicação",
+    "Recomendações do mês"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "imp-media",
+   "grupo": "imprensa",
+   "nome": "Media training individual",
+   "desc": "Treinamento prático de porta-voz para entrevistas, com simulação e devolutiva.",
+   "preco": 1800,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 6,
+   "prazo": "Agendamento em até 10 dias",
+   "entrega": [
+    "Sessão de 3 horas",
+    "Simulação de entrevista gravada",
+    "Guia de mensagens-chave"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "imp-media-grupo",
+   "grupo": "imprensa",
+   "nome": "Media training para equipe",
+   "desc": "Treinamento de até 8 pessoas, com simulações e orientação para situações difíceis.",
+   "preco": 9000,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "Agendamento em até 20 dias",
+   "entrega": [
+    "Dia de 8 horas",
+    "Simulações em grupo",
+    "Material de apoio"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "imp-plan",
+   "grupo": "imprensa",
+   "nome": "Planejamento anual de comunicação",
+   "desc": "Diagnóstico, objetivos, calendário editorial e plano de relacionamento com a imprensa para 12 meses.",
+   "preco": 5500,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "20 dias úteis",
+   "entrega": [
+    "Diagnóstico de presença na mídia",
+    "Calendário anual de pautas",
+    "Mapa de veículos prioritários",
+    "Indicadores e metas"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "plano-start",
+   "grupo": "pacotes",
+   "nome": "Plano Start",
+   "desc": "Para marcas que estão começando a construir presença na mídia.",
+   "preco": 3500,
+   "unidade": "mensal",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "Início em 7 dias úteis",
+   "entrega": [
+    "1 release por mês",
+    "Produção de texto profissional",
+    "Disparo estratégico na rede",
+    "Clipping básico"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "plano-business",
+   "grupo": "pacotes",
+   "nome": "Plano Business",
+   "desc": "Visibilidade consistente e recorrente. Plano mais contratado.",
+   "preco": 6500,
+   "unidade": "mensal",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "Início em 7 dias úteis",
+   "entrega": [
+    "2 releases por mês",
+    "Produção de texto profissional",
+    "Disparo estratégico na rede",
+    "Matéria mensal na edição YOUR",
+    "Clipping detalhado",
+    "Acompanhamento mensal",
+    "1 vídeo mensal na plataforma YOUR Play"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "plano-premium",
+   "grupo": "pacotes",
+   "nome": "Plano Premium",
+   "desc": "Ecossistema completo: assessoria, produção e distribuição.",
+   "preco": 12000,
+   "unidade": "mensal",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "Início em 7 dias úteis",
+   "entrega": [
+    "4 releases por mês",
+    "Assessoria completa",
+    "Produção de conteúdo multimídia",
+    "Matéria mensal na edição YOUR",
+    "Entrevistas exclusivas",
+    "2 vídeos mensais na plataforma YOUR Play",
+    "Acompanhamento detalhado"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mar-diag",
+   "grupo": "marcas",
+   "nome": "Diagnóstico e posicionamento de marca",
+   "desc": "Entendimento de como a marca ou a pessoa é percebida hoje, definição de posicionamento, mensagens-chave e público.",
+   "preco": 3500,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "15 dias úteis",
+   "entrega": [
+    "Pesquisa de percepção e presença digital",
+    "Posicionamento e mensagens-chave",
+    "Plano de ação de 90 dias"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mar-pessoal",
+   "grupo": "marcas",
+   "nome": "Gestão de marca pessoal",
+   "desc": "Acompanhamento mensal da imagem pública de profissionais, executivos e especialistas, com pautas, conteúdo e relacionamento com a imprensa.",
+   "preco": 4800,
+   "unidade": "mensal",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "Início em 10 dias úteis",
+   "entrega": [
+    "Plano mensal de conteúdo e pautas",
+    "Revisão de perfis e biografia",
+    "Relacionamento com imprensa",
+    "Reunião mensal de acompanhamento"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mar-reput",
+   "grupo": "marcas",
+   "nome": "Gestão de reputação de marca",
+   "desc": "Monitoramento e cuidado contínuo da reputação de empresas, com alertas, respostas orientadas e relatório.",
+   "preco": 5500,
+   "unidade": "mensal",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "Início em 10 dias úteis",
+   "entrega": [
+    "Monitoramento de menções e avaliações",
+    "Alertas e respostas orientadas",
+    "Relatório mensal"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mar-imagem",
+   "grupo": "marcas",
+   "nome": "Consultoria de imagem",
+   "desc": "Orientação de imagem e apresentação pessoal para aparições públicas, entrevistas e vídeos.",
+   "preco": 1200,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 4,
+   "prazo": "10 dias úteis",
+   "entrega": [
+    "Encontro de 4 horas",
+    "Guia de estilo para aparições",
+    "Revisão de material fotográfico"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mar-kit",
+   "grupo": "marcas",
+   "nome": "Press kit e biografia profissional",
+   "desc": "Kit de imprensa com biografia, fatos e números, fotos autorizadas e perguntas frequentes.",
+   "preco": 1800,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "10 dias úteis",
+   "entrega": [
+    "Biografia curta e longa",
+    "Fatos e números",
+    "Página de press kit"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "id-logo",
+   "grupo": "identidade",
+   "nome": "Criação de logotipo",
+   "desc": "Logotipo com variações de uso e arquivos finais.",
+   "preco": 1800,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "15 dias úteis",
+   "entrega": [
+    "2 propostas iniciais",
+    "2 rodadas de ajustes",
+    "Arquivos em vetor e PNG"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "id-basica",
+   "grupo": "identidade",
+   "nome": "Identidade visual básica",
+   "desc": "Logotipo, paleta de cores e tipografia, com guia resumido de uso.",
+   "preco": 3200,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "20 dias úteis",
+   "entrega": [
+    "Logotipo e variações",
+    "Paleta de cores",
+    "Tipografia",
+    "Guia resumido de uso"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "id-completa",
+   "grupo": "identidade",
+   "nome": "Identidade visual completa com manual",
+   "desc": "Sistema de identidade completo, aplicações e manual de marca.",
+   "preco": 6500,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "35 dias úteis",
+   "entrega": [
+    "Logotipo e sistema de assinaturas",
+    "Paleta, tipografia e elementos gráficos",
+    "Manual de marca",
+    "Aplicações em papelaria e redes"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "id-manual",
+   "grupo": "identidade",
+   "nome": "Manual de marca (para marca existente)",
+   "desc": "Organização e documentação da identidade que a marca já usa.",
+   "preco": 2800,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "20 dias úteis",
+   "entrega": [
+    "Diagnóstico da identidade atual",
+    "Manual de marca",
+    "Modelos editáveis"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "id-papelaria",
+   "grupo": "identidade",
+   "nome": "Papelaria institucional",
+   "desc": "Cartão, papel timbrado, assinatura de e-mail e apresentação institucional.",
+   "preco": 1500,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "10 dias úteis",
+   "entrega": [
+    "Cartão de visita",
+    "Papel timbrado",
+    "Assinatura de e-mail"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "id-deck",
+   "grupo": "identidade",
+   "nome": "Apresentação institucional",
+   "desc": "Apresentação de até 20 slides com a identidade da marca.",
+   "preco": 2500,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "10 dias úteis",
+   "entrega": [
+    "Até 20 slides",
+    "Modelo editável",
+    "Uma rodada de ajustes"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "id-rebrand",
+   "grupo": "identidade",
+   "nome": "Rebranding completo",
+   "desc": "Reposicionamento visual e verbal, com estratégia, identidade, manual e lançamento.",
+   "preco": 12000,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "60 dias úteis",
+   "entrega": [
+    "Estratégia de marca",
+    "Nova identidade visual",
+    "Manual completo",
+    "Plano de lançamento"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mag-logo",
+   "grupo": "revista",
+   "nome": "Logo na capa",
+   "desc": "O logotipo da marca aplicado com destaque na capa da edição digital, primeiro impacto visual do leitor.",
+   "preco": 4600,
+   "unidade": "unico",
+   "natureza": "publicidade",
+   "qtdMax": 1,
+   "prazo": "Próxima edição",
+   "entrega": [
+    "Logo na capa da edição digital"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mag-vitrine",
+   "grupo": "revista",
+   "nome": "Vitrine YOUR",
+   "desc": "Curadoria visual de produtos, experiências ou novidades, com fotografia de impacto e textos curtos. Edição mensal, 2 páginas.",
+   "preco": 3200,
+   "unidade": "mensal",
+   "natureza": "publicidade",
+   "qtdMax": 1,
+   "prazo": "Próxima edição",
+   "entrega": [
+    "2 páginas na edição mensal",
+    "Fotografia de impacto",
+    "Textos curtos"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mag-materia",
+   "grupo": "revista",
+   "nome": "Matéria no site",
+   "desc": "Artigo completo com texto, imagens ou vídeo, publicado no site da YOUR Magazine.",
+   "preco": 2500,
+   "unidade": "unico",
+   "natureza": "publicidade",
+   "qtdMax": 1,
+   "prazo": "10 dias úteis",
+   "entrega": [
+    "Artigo completo no site",
+    "Imagens ou vídeo"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mag-premium",
+   "grupo": "revista",
+   "nome": "Matéria Premium",
+   "desc": "Matéria na edição mensal, com stories e collab nas redes da YOUR.",
+   "preco": 3800,
+   "unidade": "mensal",
+   "natureza": "publicidade",
+   "qtdMax": 1,
+   "prazo": "Próxima edição",
+   "entrega": [
+    "Matéria na edição mensal",
+    "Stories",
+    "Collab nas redes"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mag-capa",
+   "grupo": "revista",
+   "nome": "Capa Digital",
+   "desc": "Capa da edição com entrevista publicada no site.",
+   "preco": 4900,
+   "unidade": "unico",
+   "natureza": "publicidade",
+   "qtdMax": 1,
+   "prazo": "Próxima edição",
+   "entrega": [
+    "Capa da edição",
+    "Entrevista no site"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mag-coluna",
+   "grupo": "revista",
+   "nome": "Coluna fixa",
+   "desc": "Seis matérias em seis edições, em valor único.",
+   "preco": 8400,
+   "unidade": "unico",
+   "natureza": "publicidade",
+   "qtdMax": 1,
+   "prazo": "6 edições",
+   "entrega": [
+    "6 matérias em 6 edições"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "mag-banner",
+   "grupo": "revista",
+   "nome": "Banner no site",
+   "desc": "Banner de destaque no site da YOUR Magazine.",
+   "preco": 1450,
+   "unidade": "mensal",
+   "natureza": "publicidade",
+   "qtdMax": 1,
+   "prazo": "Início em 3 dias úteis",
+   "entrega": [
+    "Banner de destaque no site"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "con-video",
+   "grupo": "conteudo",
+   "nome": "Vídeo institucional",
+   "desc": "Vídeo de 2 a 3 minutos com roteiro, gravação, edição e trilha.",
+   "preco": 5500,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "25 dias úteis",
+   "entrega": [
+    "Roteiro",
+    "Um dia de gravação",
+    "Edição e trilha",
+    "Uma rodada de ajustes"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "con-video-plus",
+   "grupo": "conteudo",
+   "nome": "Vídeo institucional completo",
+   "desc": "Produção com várias locações, entrevistas e motion graphics.",
+   "preco": 12000,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "40 dias úteis",
+   "entrega": [
+    "Roteiro e direção",
+    "Várias locações",
+    "Motion graphics",
+    "Duas rodadas de ajustes"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "con-play",
+   "grupo": "conteudo",
+   "nome": "Vídeo mensal no YOUR Play",
+   "desc": "Vídeo produzido pelo Content Studio e publicado na plataforma YOUR Play.",
+   "preco": 2800,
+   "unidade": "mensal",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "Início em 10 dias úteis",
+   "entrega": [
+    "1 vídeo por mês",
+    "Publicação no YOUR Play"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "con-foto",
+   "grupo": "conteudo",
+   "nome": "Ensaio fotográfico editorial",
+   "desc": "Fotografia editorial para pauta, redes e kit de imprensa.",
+   "preco": 3200,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "12 dias úteis",
+   "entrega": [
+    "Sessão de até 4 horas",
+    "30 fotos tratadas"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "con-texto",
+   "grupo": "conteudo",
+   "nome": "Texto jornalístico",
+   "desc": "Matéria ou artigo de 550 palavras, com apuração e revisão.",
+   "preco": 1200,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 12,
+   "prazo": "5 dias úteis",
+   "entrega": [
+    "Texto de 550 palavras",
+    "Uma rodada de revisão"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "cri-audit",
+   "grupo": "crise",
+   "nome": "Auditoria de reputação",
+   "desc": "Levantamento de riscos e vulnerabilidades de imagem, com recomendações.",
+   "preco": 2800,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "12 dias úteis",
+   "entrega": [
+    "Mapa de riscos",
+    "Análise de menções",
+    "Recomendações"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "cri-plano",
+   "grupo": "crise",
+   "nome": "Plano de gestão de crise",
+   "desc": "Protocolos, porta-vozes, notas-base e perguntas difíceis para cenários prováveis.",
+   "preco": 4500,
+   "unidade": "unico",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "15 dias úteis",
+   "entrega": [
+    "Cenários e protocolos",
+    "Notas-base e perguntas difíceis",
+    "Linha do tempo de resposta"
+   ],
+   "ativo": true
+  },
+  {
+   "id": "cri-plantao",
+   "grupo": "crise",
+   "nome": "Plantão de crise",
+   "desc": "Acompanhamento próximo durante um período sensível, com resposta rápida à imprensa.",
+   "preco": 6000,
+   "unidade": "mensal",
+   "natureza": "servico",
+   "qtdMax": 1,
+   "prazo": "Início em 2 dias úteis",
+   "entrega": [
+    "Monitoramento reforçado",
+    "Resposta à imprensa",
+    "Reunião semanal"
+   ],
+   "ativo": true
+  }
+ ],
+ "prazos": [
+  {
+   "meses": 3,
+   "desconto": 0,
+   "nome": "3 meses"
+  },
+  {
+   "meses": 6,
+   "desconto": 5,
+   "nome": "6 meses, 5% nas mensalidades"
+  },
+  {
+   "meses": 12,
+   "desconto": 10,
+   "nome": "12 meses, 10% nas mensalidades"
+  }
+ ],
+ "condicoes": [
+  "Entrada de 50% dos itens de valor único no momento da contratação, não reembolsável. O restante é faturado na entrega.",
+  "Itens mensais são faturados mês a mês, com a primeira mensalidade na contratação. Empresas, agências e veículos são faturados nos termos NET 14.",
+  "Esta é uma proposta preliminar gerada a partir das escolhas feitas no orçamento. Escopo, prazos e valores finais são confirmados na reunião de briefing, antes da assinatura.",
+  "Assessoria de imprensa não garante publicação. A decisão de pautar e publicar é sempre editorial e do veículo. A YOUR garante o trabalho de produção, abordagem e acompanhamento descritos.",
+  "Conteúdos na YOUR Magazine são identificados como publicidade ou conteúdo patrocinado quando assim forem.",
+  "Em marcas e profissionais da saúde, todo material segue as regras do respectivo conselho profissional e passa por aprovação do profissional responsável antes da publicação.",
+  "Dados enviados são tratados conforme a LGPD, apenas para elaborar esta proposta e o atendimento."
+ ],
+ "validadeDias": 15
+}

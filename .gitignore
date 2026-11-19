@@ -1,0 +1,16 @@
+node_modules/
+.next/
+.open-next/
+.wrangler/
+artifacts/
+cloudflare-dist/
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+!*.example
+public/downloads/*.zip
+your-magazine-cloudflare.zip
+*.tsbuildinfo
+.DS_Store
