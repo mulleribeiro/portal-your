@@ -114,6 +114,17 @@ CREATE TABLE IF NOT EXISTS admin_sessions (
 CREATE INDEX IF NOT EXISTS admin_sessions_expiry_idx ON admin_sessions (expires_at);
 CREATE INDEX IF NOT EXISTS items_type_idx ON items (type);
 CREATE INDEX IF NOT EXISTS menu_area_idx ON menu_items (area);
+CREATE TABLE IF NOT EXISTS email_subscribers (
+  id serial PRIMARY KEY,
+  email varchar(320) NOT NULL UNIQUE,
+  name text,
+  source varchar(80) NOT NULL DEFAULT 'footer',
+  lang varchar(8) NOT NULL DEFAULT 'pt',
+  consent_at timestamptz NOT NULL DEFAULT now(),
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS email_subscribers_created_idx ON email_subscribers (created_at);
 CREATE INDEX IF NOT EXISTS pitches_status_idx ON pitches (status);
 CREATE INDEX IF NOT EXISTS pitches_created_idx ON pitches (created_at);
 `;

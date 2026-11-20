@@ -6,7 +6,7 @@ export type Api = {
   setData: (d: AdminData) => void;
   refresh: () => Promise<void>;
   getItem: (id: string) => Promise<AdminData["items"][number] | null>;
-  save: (entity: string, data: unknown) => Promise<{ error?: string }>;
+  save: (entity: string, data: unknown) => Promise<{ error?: string; saved?: boolean }>;
   action: (action: string, extra?: Record<string, unknown>) => Promise<{ error?: string; updated?: number; engine?: string }>;
   translate: (text: string, target: string, source?: string) => Promise<string>;
   toast: (message: string) => void;
@@ -22,15 +22,40 @@ export async function fetchData(token?: string): Promise<AdminData> {
 export function createApi(setData: (d: AdminData) => void, toast: (m: string) => void, data: AdminData): Api {
   const refresh = async () => setData(await fetchData());
   const getItem = async (id: string) => {
-    const response = await adminFetch(`/api/admin/item?id=${encodeURIComponent(id)}`);
-    if (!response.ok) return null;
-    return ((await response.json()) as { item: AdminData["items"][number] }).item || null;
+    try {
+      const response = await adminFetch(`/api/admin/item?id=${encodeURIComponent(id)}`);
+      const result = await response.json().catch(() => ({})) as { item?: AdminData["items"][number]; error?: string };
+      if (!response.ok || !result.item) {
+        toast(response.status === 401 ? "Sua sessão terminou. Entre novamente no Admin." : result.error || "O conteúdo completo não carregou; você ainda pode editar os campos disponíveis.");
+        return null;
+      }
+      return result.item;
+    } catch {
+      toast("Não foi possível carregar o corpo completo; os campos disponíveis foram abertos para edição.");
+      return null;
+    }
   };
   const save = async (entity: string, payload: unknown) => {
-    const response = await adminFetch("/api/admin/save", { method: "POST", body: JSON.stringify({ entity, data: payload }) });
-    const result = await response.json() as { error?: string };
-    if (!response.ok || result.error) { toast(`Erro: ${result.error || response.status}`); return { error: result.error || "Não foi possível salvar." }; }
-    await refresh(); toast("Salvo no banco"); return result;
+    try {
+      const response = await adminFetch("/api/admin/save", { method: "POST", body: JSON.stringify({ entity, data: payload }) });
+      const result = await response.json().catch(() => ({})) as { error?: string };
+      if (!response.ok || result.error) {
+        const error = result.error || `Falha HTTP ${response.status}`;
+        toast(`Erro ao salvar: ${error}`);
+        return { error };
+      }
+      try {
+        await refresh();
+        toast("Alterações salvas no PostgreSQL");
+      } catch {
+        toast("Salvo no banco, mas a lista não atualizou. Recarregue o painel para conferir.");
+      }
+      return { saved: true };
+    } catch (cause) {
+      const error = cause instanceof Error ? cause.message : "Não foi possível conectar ao servidor.";
+      toast(`Erro ao salvar: ${error}`);
+      return { error };
+    }
   };
   const action = async (name: string, extra: Record<string, unknown> = {}) => {
     const response = await adminFetch("/api/admin/actions", { method: "POST", body: JSON.stringify({ action: name, ...extra }) });

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ItemRow } from "@/db/schema";
 import { Editable } from "@/components/EditProvider";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { Kin, MediaTile, SectionHead } from "@/components/ui";
 import { ensureItemsTranslated, hrefForItem, itemsOfType, loadSite, mlPick, pageBySlug } from "@/lib/data";
 
@@ -20,7 +21,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 
   const editions = itemsOfType(site, "edition").slice(0, 5);
   const covers = itemsOfType(site, "cover").slice(0, 6);
-  const news = itemsOfType(site, "article").slice(0, 8);
+  const news = itemsOfType(site, "article").slice(0, 4);
   const videos = itemsOfType(site, "video").slice(0, 6);
   const hotels = itemsOfType(site, "hotel").slice(0, 2);
   const dining = itemsOfType(site, "dining").slice(0, 2);
@@ -42,6 +43,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 
   const latestEdition = editions[0];
   const latestCover = covers[0];
+  const latestCoverHref = latestCover ? (latestCover.url || itemHref(latestCover)) : "";
   const heroImage = images.heroBackground?.url || latestEdition?.image || "";
   const ticker = (s.ticker || []) as { text: Record<string, string>; href?: string }[];
 
@@ -59,7 +61,13 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             />
           </p>
           <h1>
-            <Kin text={tr(s.heroTitle as Record<string, string>)} />
+            <Editable
+              target={{ entity: "settings", id: "portal", field: "heroTitle", label: "Título do hero" }}
+              value={tr(s.heroTitle as Record<string, string>)}
+              translations={s.heroTitle as Record<string, string>}
+            >
+              <Kin text={tr(s.heroTitle as Record<string, string>)} />
+            </Editable>
           </h1>
           <p>
             <Editable
@@ -78,7 +86,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 
         {latestCover && (
           <div className="card">
-            <Link href={itemHref(latestCover)} className="block">
+            <Link href={latestCoverHref} target={latestCover.url?.startsWith("http") ? "_blank" : undefined} rel={latestCover.url?.startsWith("http") ? "noreferrer" : undefined} className="block">
               <MediaTile
                 id={latestCover.id}
                 src={latestCover.image}
@@ -96,7 +104,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                 </a>
               )}
             </div>
-            <Link href={itemHref(latestCover)}>
+            <Link href={latestCoverHref} target={latestCover.url?.startsWith("http") ? "_blank" : undefined} rel={latestCover.url?.startsWith("http") ? "noreferrer" : undefined}>
               <h3 className="font-display text-2xl font-bold uppercase">{tr(latestCover.title)}</h3>
             </Link>
           </div>
@@ -170,7 +178,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         <div className="home-covers-strip">
           {covers.map((c) => (
             <div key={c.id} className="card">
-              <Link href={itemHref(c)} className="block">
+              <Link href={c.url || itemHref(c)} target={c.url?.startsWith("http") ? "_blank" : undefined} rel={c.url?.startsWith("http") ? "noreferrer" : undefined} className="block">
                 <MediaTile
                   id={c.id}
                   src={c.image}
@@ -181,7 +189,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
                 />
               </Link>
               <div className="mt-1 flex items-center justify-between gap-2">
-                <Link href={itemHref(c)} className="min-w-0">
+                <Link href={c.url || itemHref(c)} target={c.url?.startsWith("http") ? "_blank" : undefined} rel={c.url?.startsWith("http") ? "noreferrer" : undefined} className="min-w-0">
                   <h3 className="truncate font-display text-xl font-bold uppercase">
                     <Editable target={{ entity: "item", id: c.id, field: "title", label: "Nome na capa" }} value={tr(c.title)} translations={c.title} />
                   </h3>
@@ -200,7 +208,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         </div>
       </section>
 
-      {/* NEWS (4 no mobile, 8 no desktop) */}
+      {/* NEWS (3 no celular, 4 a partir de 640px) */}
       <section className="section">
         <SectionHead
           title={tr(newsPage?.title)}
@@ -212,7 +220,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         />
         <div className="grid-cards">
           {news.map((a, idx) => (
-            <Link key={a.id} href={itemHref(a)} className={`card ${idx >= 4 ? "hidden sm:flex" : ""}`}>
+            <Link key={a.id} href={itemHref(a)} className={`card ${idx >= 3 ? "news-extra" : ""}`}>
               <MediaTile id={a.id} src={a.image} word={a.category || ""} ratio="r34" edit={{ entity: "item", id: a.id, field: "image", label: "Imagem da matéria" }} />
               <p className="tag mt-1">{a.category}</p>
               <h3>
@@ -292,6 +300,10 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             </Link>
           ))}
         </div>
+      </section>
+
+      <section className="section mx-auto w-full max-w-4xl">
+        <NewsletterSignup lang={lang} source="home" variant="card" />
       </section>
 
       {/* MEDIA RELATIONS + MÍDIA KIT */}

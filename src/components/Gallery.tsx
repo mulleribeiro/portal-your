@@ -44,7 +44,7 @@ function gradientFor(id: string) {
 }
 
 export function Gallery({
-  items, param, ratio = "r34", modalRatio, layout = "grid", labels,
+  items, param, ratio = "r34", modalRatio, layout = "grid", labels, directLinks = false,
 }: {
   items: GalleryCard[];
   param: string;
@@ -52,6 +52,7 @@ export function Gallery({
   modalRatio?: string;
   layout?: "grid" | "row" | "postcards" | "portrait";
   labels: { close: string; visit: string; open?: string; read?: string };
+  directLinks?: boolean;
 }) {
   const ctx = useEdit();
   const router = useRouter();
@@ -128,19 +129,33 @@ export function Gallery({
       <div className={container}>
         {visible.map((item) => (
           <div key={item.id} className={`card text-left ${cardW}`}>
-            <div
-              onClick={() => open(item.id)}
-              className={`md ${ratio} cursor-pointer`}
-              style={{ background: gradientFor(item.id) }}
-            >
-              <span className="mdw">{item.word || item.title.split(" ")[0]}</span>
-              <EditableImage
-                target={{ entity: "item", id: item.id, field: "image", label: item.title }}
-                src={sizedImage(item.image, ratioSize(ratio).w, ratioSize(ratio).h)}
-                linkTarget={{ entity: "item", id: item.id, field: "url", label: "Link" }}
-                linkUrl={item.url}
-              />
-            </div>
+            {directLinks && item.url ? (
+              <a
+                href={item.url}
+                target={item.url.startsWith("http") ? "_blank" : undefined}
+                rel={item.url.startsWith("http") ? "noreferrer" : undefined}
+                className={`md ${ratio} block cursor-pointer`}
+                style={{ background: gradientFor(item.id) }}
+              >
+                <span className="mdw">{item.word || item.title.split(" ")[0]}</span>
+                <EditableImage
+                  target={{ entity: "item", id: item.id, field: "image", label: item.title }}
+                  src={sizedImage(item.image, ratioSize(ratio).w, ratioSize(ratio).h)}
+                  linkTarget={{ entity: "item", id: item.id, field: "url", label: "Link" }}
+                  linkUrl={item.url}
+                />
+              </a>
+            ) : (
+              <div onClick={() => open(item.id)} className={`md ${ratio} cursor-pointer`} style={{ background: gradientFor(item.id) }}>
+                <span className="mdw">{item.word || item.title.split(" ")[0]}</span>
+                <EditableImage
+                  target={{ entity: "item", id: item.id, field: "image", label: item.title }}
+                  src={sizedImage(item.image, ratioSize(ratio).w, ratioSize(ratio).h)}
+                  linkTarget={{ entity: "item", id: item.id, field: "url", label: "Link" }}
+                  linkUrl={item.url}
+                />
+              </div>
+            )}
             <div className="mt-1 flex items-center justify-between gap-2">
               {item.category ? <p className="tag truncate">{item.category}</p> : <span />}
               {item.url && (
@@ -155,9 +170,13 @@ export function Gallery({
                 </a>
               )}
             </div>
-            <button type="button" onClick={() => open(item.id)} className="text-left">
-              <h3>{item.title}</h3>
-            </button>
+            {directLinks && item.url ? (
+              <a href={item.url} target={item.url.startsWith("http") ? "_blank" : undefined} rel={item.url.startsWith("http") ? "noreferrer" : undefined} className="text-left">
+                <h3>{item.title}</h3>
+              </a>
+            ) : (
+              <button type="button" onClick={() => open(item.id)} className="text-left"><h3>{item.title}</h3></button>
+            )}
             {item.dek ? <p className="line-clamp-2">{item.dek}</p> : null}
             {item.recs && item.recs.length > 0 && (
               <div className="mt-2 rounded-xl border border-line bg-ink/40 p-2.5">

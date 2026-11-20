@@ -4,6 +4,17 @@ import { Editable } from "@/components/EditProvider";
 import { Kin, MediaTile, RichBody } from "@/components/ui";
 import { ensureItemFullTranslated, itemsOfType, loadSite, mlPick } from "@/lib/data";
 
+type ArticleSection =
+  | { type: "text"; text: Record<string, string> }
+  | { type: "image"; src: string; alt?: Record<string, string>; caption?: Record<string, string> };
+
+function isArticleSection(value: unknown): value is ArticleSection {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const section = value as Record<string, unknown>;
+  if (section.type === "text") return Boolean(section.text && typeof section.text === "object");
+  return section.type === "image" && typeof section.src === "string";
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }) {
   const { lang, slug } = await params;
   const site = await loadSite();
@@ -32,6 +43,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ lang: 
   const author = columnists.find((c) => c.id === "col-muller-ribeiro") || columnists[0];
   const related = all.filter((a) => a.id !== item.id && (a.category === item.category || a.featured)).slice(0, 3);
   const body = tr(item.body) || `${tr(item.dek)}\n\n## ${tr(site.ui["label.latest"])}\n${tr(item.dek)}`;
+  const rawArticleSections = (item.meta as { articleSections?: unknown } | null)?.articleSections;
+  const articleSections = Array.isArray(rawArticleSections) ? rawArticleSections.filter(isArticleSection) : [];
   const shareText = encodeURIComponent(tr(item.title));
 
   return (
@@ -75,15 +88,28 @@ export default async function ArticlePage({ params }: { params: Promise<{ lang: 
             <span className="ml-2 text-sm text-[#7c5a66]">{tr(author?.dek)}</span>
           </div>
         </div>
-        <Editable
-          as="div"
-          target={{ entity: "item", id: item.id, field: "body", label: "Corpo da matéria" }}
-          value={body}
-          translations={item.body ?? undefined}
-          multiline
-        >
-          <RichBody text={body} light />
-        </Editable>
+        {articleSections.length > 0 ? (
+          <div className="grid min-w-0 gap-7">
+            {articleSections.map((section, index) => section.type === "text" ? (
+              <RichBody key={index} text={mlPick(site, section.text, lang)} light />
+            ) : section.src.trim() ? (
+              <figure key={index} className="grid min-w-0 gap-2">
+                <img src={section.src} alt={tr(section.alt) || tr(section.caption)} className="max-h-[760px] w-full rounded-xl bg-[#24101a0a] object-contain" loading="lazy" />
+                {section.caption && tr(section.caption) ? <figcaption className="text-center text-sm text-[#6e4855]">{tr(section.caption)}</figcaption> : null}
+              </figure>
+            ) : null)}
+          </div>
+        ) : (
+          <Editable
+            as="div"
+            target={{ entity: "item", id: item.id, field: "body", label: "Corpo da matéria" }}
+            value={body}
+            translations={item.body ?? undefined}
+            multiline
+          >
+            <RichBody text={body} light />
+          </Editable>
+        )}
       </div>
 
       {related.length > 0 && (

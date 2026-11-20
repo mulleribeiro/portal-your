@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Editable } from "@/components/EditProvider";
+import { CONTACT_EMAIL } from "@/lib/contact";
 import { MediaTile, RichBody } from "@/components/ui";
 import { ensureItemFullTranslated, ensureItemsTranslated, itemsOfType, loadSite, mlPick, pageBySlug } from "@/lib/data";
 
@@ -30,7 +31,7 @@ export default async function ColumnistPage({ params }: { params: Promise<{ lang
   const page = pageBySlug(site, "columnists");
   const others = all.filter((c) => c.id !== person.id).slice(0, 8);
   const articles = itemsOfType(site, "article").slice(0, 4);
-  const columns = meta.past || [];
+  const columns = (meta.past || []).slice(0, 3);
   const personSlug = person.id.replace(/^col-/, "");
 
   if (lang !== site.defaultLang) {
@@ -74,7 +75,7 @@ export default async function ColumnistPage({ params }: { params: Promise<{ lang
             </div>
 
             <div className="mt-6 flex flex-wrap gap-2">
-              <a href={`mailto:muller@yourmagazine.com.br?subject=Contato%20para%20${encodeURIComponent(tr(person.title))}`} className="btn btn-gold">
+              <a href={`mailto:${CONTACT_EMAIL}?subject=Contato%20para%20${encodeURIComponent(tr(person.title))}`} className="btn btn-gold">
                 Falar com a redação
               </a>
               <Link href={`/${lang}/press`} className="btn">Releases & imprensa</Link>

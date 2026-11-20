@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import { Editable, type EditTarget } from "./EditProvider";
 import { EditableImage } from "./EditableImage";
@@ -78,10 +79,14 @@ export function Stats({ items, light }: { items: { value: string; label: string 
 export function Kin({ text, className = "" }: { text: string; className?: string }) {
   return (
     <span className={`kin ${className}`}>
-      {String(text).split(" ").map((w, i) => (
-        <span key={`${w}-${i}`}>
-          <i style={{ ["--i" as string]: i }}>{w}</i>{" "}
-        </span>
+      {/* The space sits BETWEEN the word spans (not inside them): white space inside an
+          inline-block is trimmed at the end of its line box, which glued the words together. */}
+      {String(text).split(" ").map((word, i) => (
+        <Fragment key={`${word}-${i}`}>
+          <span>
+            <i style={{ ["--i" as string]: i }}>{word}</i>
+          </span>{" "}
+        </Fragment>
       ))}
     </span>
   );

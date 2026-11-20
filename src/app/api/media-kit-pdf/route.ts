@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { ensureReady } from "@/db/ensure";
 import { settings } from "@/db/schema";
 import { buildPdf, logoBytes } from "@/lib/pdf";
+import { CONTACT_EMAIL } from "@/lib/contact";
 import type { PortalSettings } from "@/db/schema";
 
 export const dynamic = "force-dynamic";
@@ -44,7 +45,7 @@ export async function GET() {
     "## Condições Comerciais",
     (catalog.condicoes || []).map((c) => `• ${c}`).join("\n"),
     "## Contato Comercial",
-    `Fale com o time da YOUR Magazine: ${s.email || "muller@yourmagazine.com.br"} · ${s.phone || ""}. Endereço Brasil: R. João da Silva Araújo, 8 — Sala 306, Centro, Caratinga, MG, 35300-238. Escritório Nova York: 1740 Broadway, 15th Floor, New York, 10019, EUA.`,
+    `Fale com o time da YOUR Magazine: ${CONTACT_EMAIL} · ${s.phone || ""}. Endereço Brasil: R. João da Silva Araújo, 8 — Sala 306, Centro, Caratinga, MG, 35300-238. Escritório Nova York: 1740 Broadway, 15th Floor, New York, 10019, EUA.`,
   ].join("\n\n");
 
   const pdf = buildPdf({

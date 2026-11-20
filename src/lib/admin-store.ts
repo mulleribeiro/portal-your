@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { ensureReady } from "@/db/ensure";
 import { activityLog, items, languages, menuItems, pages, settings, uiStrings } from "@/db/schema";
@@ -123,7 +123,8 @@ export type ItemPayload = {
 
 export async function saveItem(payload: ItemPayload, defaultLang: string) {
   await ensureReady();
-  const id = payload.id?.trim() || `${payload.type}-${slugify(payload.title?.[defaultLang] || "novo")}`;
+  const prefix = payload.type === "columnist" ? "col" : payload.type;
+  const id = payload.id?.trim() || `${prefix}-${slugify(payload.title?.[defaultLang] || "novo")}`;
   const row = {
     id, type: payload.type, title: payload.title, dek: payload.dek || null, body: payload.body || null,
     category: payload.category || null, tags: payload.tags || [], image: payload.image || null,
@@ -136,19 +137,61 @@ export async function saveItem(payload: ItemPayload, defaultLang: string) {
 }
 
 export async function savePage(payload: {
-  slug: string; template?: string; title: Record<string, string>; subtitle?: Record<string, string>;
+  slug: string; previousSlug?: string; template?: string; title: Record<string, string>; subtitle?: Record<string, string>;
   kicker?: Record<string, string>; image?: string; blocks?: unknown[]; published?: boolean;
   showInMenu?: boolean; position?: number; seo?: Record<string, string>;
 }) {
   await ensureReady();
+  if (typeof payload.slug !== "string" || !payload.slug.trim()) throw new Error("Informe um slug para a página.");
+  const title = payload.title && typeof payload.title === "object" ? payload.title : {};
+  if (!Object.values(title).some((value) => typeof value === "string" && value.trim())) throw new Error("Informe um título para a página.");
+  const blocks = payload.blocks ?? [];
+  if (!Array.isArray(blocks)) throw new Error("Os blocos da página precisam ser uma lista JSON.");
+
   const slug = slugify(payload.slug);
+  const previousSlug = payload.previousSlug?.trim() ? slugify(payload.previousSlug) : "";
+  const template = payload.template?.trim() || "custom";
   const row = {
-    slug, template: payload.template || "custom", title: payload.title, subtitle: payload.subtitle || null,
-    kicker: payload.kicker || null, image: payload.image || null, blocks: payload.blocks || [],
+    slug, template, title, subtitle: payload.subtitle || null,
+    kicker: payload.kicker || null, image: payload.image || null, blocks,
     seo: payload.seo || null, published: payload.published !== false, showInMenu: payload.showInMenu !== false,
     position: payload.position ?? 0, updatedAt: new Date(),
   };
-  await db.insert(pages).values(row).onConflictDoUpdate({ target: pages.slug, set: row });
+
+  if (previousSlug && previousSlug !== slug) {
+    const [collision] = await db.select({ slug: pages.slug }).from(pages).where(eq(pages.slug, slug)).limit(1);
+    if (collision) throw new Error("Já existe uma página com esse endereço.");
+    const [renamed] = await db.update(pages).set(row).where(eq(pages.slug, previousSlug)).returning({ slug: pages.slug });
+    if (!renamed) throw new Error("A página original não foi encontrada. Atualize a lista e tente novamente.");
+    await db.update(menuItems).set({ href: `/${slug}` }).where(and(
+      eq(menuItems.area, "rail"), eq(menuItems.group, "Páginas"), eq(menuItems.href, `/${previousSlug}`),
+    ));
+  } else {
+    await db.insert(pages).values(row).onConflictDoUpdate({ target: pages.slug, set: row });
+  }
+
+  const autoMenuFilter = and(
+    eq(menuItems.area, "rail"), eq(menuItems.group, "Páginas"), eq(menuItems.href, `/${slug}`), eq(menuItems.kind, "route"),
+  );
+  if (template === "custom" && row.published && row.showInMenu) {
+    const [autoMenu] = await db.select({ id: menuItems.id }).from(menuItems).where(autoMenuFilter).limit(1);
+    if (!autoMenu) {
+      const [anyRoute] = await db.select({ id: menuItems.id }).from(menuItems).where(and(
+        eq(menuItems.area, "rail"), eq(menuItems.href, `/${slug}`), eq(menuItems.kind, "route"),
+      )).limit(1);
+      if (!anyRoute) {
+        const positions = await db.select({ position: menuItems.position }).from(menuItems).where(eq(menuItems.area, "rail"));
+        const position = Math.max(-1, ...positions.map((entry) => entry.position)) + 1;
+        await db.insert(menuItems).values({
+          area: "rail", group: "Páginas", label: title, kind: "route", href: `/${slug}`,
+          badge: null, icon: "P", position, hidden: false,
+        });
+      }
+    }
+  } else {
+    await db.delete(menuItems).where(autoMenuFilter);
+  }
+
   await log("page", slug, "save");
   return { slug };
 }
@@ -158,18 +201,44 @@ export async function saveMenu(payload: {
   href: string; badge?: string | null; icon?: string | null; position?: number; hidden?: boolean;
 }) {
   await ensureReady();
+  if (!["rail", "top", "footer"].includes(payload.area)) throw new Error("Área de menu inválida.");
+  const kind = payload.kind || "route";
+  if (!["route", "external", "email"].includes(kind)) throw new Error("Tipo de destino inválido.");
+  const label = payload.label && typeof payload.label === "object" ? payload.label : {};
+  if (!Object.values(label).some((value) => typeof value === "string" && value.trim())) throw new Error("Informe um rótulo para o item de menu.");
+
+  const rawHref = String(payload.href || "").trim();
+  let href = rawHref;
+  if (kind === "external") {
+    try {
+      const parsed = new URL(rawHref);
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") throw new Error("scheme");
+    } catch {
+      throw new Error("O link externo precisa usar uma URL HTTP ou HTTPS válida.");
+    }
+  } else if (kind === "email") {
+    const email = rawHref.replace(/^mailto:/i, "").trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("Informe um endereço de e-mail válido para o menu.");
+    href = `mailto:${email}`;
+  } else {
+    if (!rawHref || /^(https?:|mailto:|tel:|javascript:|\/\/)/i.test(rawHref)) throw new Error("Use um caminho interno, como /news.");
+    href = `/${rawHref.replace(/^\/+/, "")}`;
+  }
+
   const row = {
-    area: payload.area, group: payload.group || null, label: payload.label, kind: payload.kind || "route",
-    href: payload.href, badge: payload.badge || null, icon: payload.icon || null,
-    position: payload.position ?? 0, hidden: Boolean(payload.hidden),
+    area: payload.area, group: payload.group?.trim() || null, label, kind,
+    href, badge: payload.badge?.trim() || null, icon: payload.icon?.trim() || null,
+    position: Number.isFinite(payload.position) ? payload.position! : 0, hidden: Boolean(payload.hidden),
   };
-  if (payload.id) {
-    await db.update(menuItems).set(row).where(eq(menuItems.id, payload.id));
+  if (payload.id !== undefined) {
+    if (!Number.isInteger(payload.id) || payload.id < 1) throw new Error("Identificador de menu inválido.");
+    const [updated] = await db.update(menuItems).set(row).where(eq(menuItems.id, payload.id)).returning({ id: menuItems.id });
+    if (!updated) throw new Error("O item de menu não foi encontrado.");
     await log("menu", String(payload.id), "save");
     return { id: payload.id };
   }
   const [created] = await db.insert(menuItems).values(row).returning({ id: menuItems.id });
-  await log("menu", String(created?.id), "create", payload.href);
+  await log("menu", String(created?.id), "create", href);
   return created;
 }
 

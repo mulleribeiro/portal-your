@@ -6,6 +6,7 @@ import { createApi } from "./api";
 import { clearAdminToken } from "@/lib/admin-session";
 import { CatalogTab } from "./CatalogTab";
 import { ContentTab } from "./ContentTab";
+import { EmailsTab } from "./EmailsTab";
 import { MediaTab } from "./MediaTab";
 import { OverviewTab } from "./OverviewTab";
 import { PitchesTab } from "./PitchesTab";
@@ -17,6 +18,7 @@ import type { AdminData } from "./types";
 const TABS = [
   { id: "overview", label: "Visão geral" },
   { id: "pitches", label: "Central de Pautas" },
+  { id: "emails", label: "E-mails" },
   { id: "catalog", label: "Catálogo & Orçamento" },
   { id: "content", label: "Conteúdo" },
   { id: "structure", label: "Páginas & Menus" },
@@ -102,6 +104,7 @@ export function AdminApp({ initialData, onLogout }: { initialData: AdminData; on
 
         {tab === "overview" && <OverviewTab api={api} />}
         {tab === "pitches" && <PitchesTab toast={toast} />}
+        {tab === "emails" && <EmailsTab toast={toast} />}
         {tab === "catalog" && <CatalogTab api={api} />}
         {tab === "content" && <ContentTab api={api} />}
         {tab === "structure" && <StructureTab api={api} />}

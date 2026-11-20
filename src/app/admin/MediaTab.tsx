@@ -9,6 +9,18 @@ import { uploadImage } from "@/lib/upload-client";
 type Img = { label: string; url: string };
 type Lk = { label: ML; href: string };
 
+const DEFAULT_IMAGES: Record<string, Img> = {
+  mediaKitHero: { label: "Banner do mídia kit", url: "" },
+  relationsHero: { label: "Banner principal Media Relations", url: "" },
+  relationsProcess: { label: "Foto do processo Media Relations", url: "" },
+  relationsAudience: { label: "Foto da audiência Media Relations", url: "" },
+  relationsVertical1: { label: "Foto YOUR Magazine", url: "" },
+  relationsVertical2: { label: "Foto YOUR Press", url: "" },
+  relationsVertical3: { label: "Foto YOUR Newswire", url: "" },
+  relationsVertical4: { label: "Foto YOUR Content Studio", url: "" },
+  relationsVertical5: { label: "Foto YOUR Media Network", url: "" },
+};
+
 export function MediaTab({ api }: { api: Api }) {
   const { data } = api;
   const s = data.settings as Record<string, unknown>;
@@ -16,7 +28,7 @@ export function MediaTab({ api }: { api: Api }) {
   const source = data.languages.find((l) => l.isDefault)?.code || "pt";
 
   const [logo, setLogo] = useState(String(s.logo || ""));
-  const [images, setImages] = useState<Record<string, Img>>((s.images as Record<string, Img>) || {});
+  const [images, setImages] = useState<Record<string, Img>>({ ...DEFAULT_IMAGES, ...((s.images as Record<string, Img>) || {}) });
   const [links, setLinks] = useState<Record<string, Lk>>((s.links as Record<string, Lk>) || {});
   const [newKey, setNewKey] = useState("");
   const [busy, setBusy] = useState(false);

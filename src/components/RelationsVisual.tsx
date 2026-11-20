@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { EditableImage } from "./EditableImage";
+import type { EditTarget } from "./EditProvider";
 
 const px = (id: number, w = 1200, h = 800) =>
   `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=${w}&h=${h}`;
@@ -47,20 +49,20 @@ function Counter({ value, suffix = "", decimals = 0 }: { value: number; suffix?:
 /* ------------------------------------------------------------------ */
 /* 1. Hero                                                             */
 /* ------------------------------------------------------------------ */
-export function RelationsHero({ lang, title, kicker, subtitle, ctas }: {
+export function RelationsHero({ lang, title, kicker, subtitle, ctas, image, imageTarget }: {
   lang: string;
   title: string;
   kicker: string;
   subtitle: string;
   ctas: { href: string; label: string; tone?: string }[];
+  image?: string;
+  imageTarget?: EditTarget;
 }) {
   return (
     <section className="relative overflow-hidden rounded-3xl border border-line">
-      <img
-        src={px(15920138, 1800, 1000)}
-        alt=""
-        className="absolute inset-0 h-full w-full object-cover"
-      />
+      {imageTarget ? (
+        <EditableImage target={imageTarget} src={image || px(15920138, 1800, 1000)} alt="" imgClass="absolute inset-0 h-full w-full object-cover" />
+      ) : <img src={image || px(15920138, 1800, 1000)} alt="" className="absolute inset-0 h-full w-full object-cover" />}
       <div className="absolute inset-0 bg-[linear-gradient(105deg,#12060af7_18%,#12060ad9_52%,#12060a66_100%)]" />
       <div className="relative flex min-h-[440px] flex-col justify-end p-7 sm:p-12">
         <p className="eyebrow">{kicker}</p>
@@ -162,7 +164,7 @@ export function NetworkInfographic({ network, lang, copy }: {
 /* ------------------------------------------------------------------ */
 /* 3. Ecosystem verticals with imagery                                 */
 /* ------------------------------------------------------------------ */
-export type Vertical = { n: string; tag: string; name: string; desc: string; img: number };
+export type Vertical = { n: string; tag: string; name: string; desc: string; img: number; image?: string; editTarget?: EditTarget };
 
 export function Ecosystem({ verticals }: { verticals: Vertical[] }) {
   return (
@@ -171,7 +173,9 @@ export function Ecosystem({ verticals }: { verticals: Vertical[] }) {
         {verticals.map((v) => (
           <article key={v.n} className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface transition hover:-translate-y-1 hover:border-blush">
             <div className="relative aspect-[4/3] overflow-hidden">
-              <img src={px(v.img, 700, 525)} alt={v.name} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+              {v.editTarget ? (
+                <EditableImage target={v.editTarget} src={v.image || px(v.img, 700, 525)} alt={v.name} imgClass="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+              ) : <img src={v.image || px(v.img, 700, 525)} alt={v.name} loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />}
               <div className="absolute inset-0 bg-gradient-to-t from-[#12060a] via-[#12060a33] to-transparent" />
               <span className="absolute left-3 top-3 rounded-full bg-blush px-2.5 py-1 font-display text-[10px] font-bold uppercase tracking-[.18em] text-[#12060a]">
                 {v.tag}
@@ -194,7 +198,7 @@ export function Ecosystem({ verticals }: { verticals: Vertical[] }) {
 /* ------------------------------------------------------------------ */
 export type Step = { step: string; title: string; desc: string; deliverable: string };
 
-export function ProcessTimeline({ steps, img }: { steps: Step[]; img: number }) {
+export function ProcessTimeline({ steps, img, imageTarget }: { steps: Step[]; img: number | string; imageTarget?: EditTarget }) {
   const [active, setActive] = useState(0);
   const cur = steps[active];
   if (!steps.length || !cur) return null;
@@ -245,7 +249,9 @@ export function ProcessTimeline({ steps, img }: { steps: Step[]; img: number }) 
         {/* detail panel with image */}
         <div className="overflow-hidden rounded-3xl border border-line bg-surface">
           <div className="relative aspect-[16/9]">
-            <img src={px(img, 1100, 620)} alt="" className="h-full w-full object-cover" />
+            {imageTarget ? (
+              <EditableImage target={imageTarget} src={typeof img === "number" ? px(img, 1100, 620) : img} alt="" imgClass="h-full w-full object-cover" />
+            ) : <img src={typeof img === "number" ? px(img, 1100, 620) : img} alt="" className="h-full w-full object-cover" />}
             <div className="absolute inset-0 bg-gradient-to-t from-[#12060a] to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-6">
               <span className="font-display text-6xl font-extrabold text-white/30">{cur.step}</span>
@@ -285,7 +291,7 @@ export function ProcessTimeline({ steps, img }: { steps: Step[]; img: number }) 
 /* ------------------------------------------------------------------ */
 /* 5. Audience infographic (donut + icons)                             */
 /* ------------------------------------------------------------------ */
-export function AudienceInfographic({ audiences, img }: { audiences: { tag: string; name: string; desc: string; icon: string }[]; img: number }) {
+export function AudienceInfographic({ audiences, img, imageTarget }: { audiences: { tag: string; name: string; desc: string; icon: string }[]; img: number | string; imageTarget?: EditTarget }) {
   return (
     <section className="section">
       <div className="sh">
@@ -297,7 +303,9 @@ export function AudienceInfographic({ audiences, img }: { audiences: { tag: stri
 
       <div className="grid gap-5 lg:grid-cols-2">
         <div className="relative min-h-[320px] overflow-hidden rounded-3xl border border-line">
-          <img src={px(img, 1100, 800)} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          {imageTarget ? (
+            <EditableImage target={imageTarget} src={typeof img === "number" ? px(img, 1100, 800) : img} alt="" imgClass="absolute inset-0 h-full w-full object-cover" />
+          ) : <img src={typeof img === "number" ? px(img, 1100, 800) : img} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />}
           <div className="absolute inset-0 bg-[linear-gradient(0deg,#12060af5_20%,#12060a55_100%)]" />
           <div className="absolute inset-x-0 bottom-0 p-7">
             <p className="eyebrow">Audience</p>

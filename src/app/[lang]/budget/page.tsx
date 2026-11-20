@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BudgetBuilder, type Catalog } from "@/components/BudgetBuilder";
 import { Kin } from "@/components/ui";
 import { loadSite, mlPick, pageBySlug } from "@/lib/data";
+import { CONTACT_EMAIL } from "@/lib/contact";
 
 export async function generateMetadata() {
   return {
@@ -55,7 +56,7 @@ export default async function BudgetPage({ params }: { params: Promise<{ lang: s
       </section>
 
       <section className="section">
-        <BudgetBuilder catalog={catalog} lang={lang} email={String(s.email || "muller@yourmagazine.com.br")} />
+        <BudgetBuilder catalog={catalog} lang={lang} email={CONTACT_EMAIL} />
       </section>
 
       {/* Catalog by group — all services, products and categories */}

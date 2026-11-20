@@ -24,6 +24,7 @@ const toNav = (site: Awaited<ReturnType<typeof loadSite>>, list: ReturnType<type
     icon: m.icon,
     badge: m.badge,
     group: m.group,
+    kind: m.kind,
   }));
 
 export default async function PortalLayout({

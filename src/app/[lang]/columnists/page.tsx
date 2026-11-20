@@ -18,9 +18,11 @@ export default async function ColumnistsPage({
   const tr = (v: Record<string, string> | null | undefined) => mlPick(site, v, lang);
   const page = pageBySlug(site, "columnists");
   const columnists = itemsOfType(site, "columnist");
+  const partnerBrands = itemsOfType(site, "brand");
+  const partnerStories = itemsOfType(site, "article");
 
   if (lang !== site.defaultLang) {
-    await ensureItemsTranslated(columnists, lang, site.defaultLang);
+    await ensureItemsTranslated([...columnists, ...partnerBrands, ...partnerStories.slice(0, 40)], lang, site.defaultLang);
   }
 
   const areas = [...new Set(columnists.map((c) => String((c.meta as { area?: string })?.area || c.category || "")).filter(Boolean))];
@@ -91,6 +93,46 @@ export default async function ColumnistsPage({
           })}
         </div>
       </section>
+
+      {partnerBrands.length > 0 ? (
+        <section className="section">
+          <div className="sh">
+            <div>
+              <p className="eyebrow mb-2">Conteúdo em parceria</p>
+              <h2>{lang === "en" ? "Partner brands & collaborative stories" : lang === "es" ? "Marcas socias y contenido colaborativo" : "Marcas parceiras e conteúdo colaborativo"}</h2>
+              <p className="mt-2 max-w-[62ch] text-sm text-mute">{lang === "en" ? "Brands that work with YOUR to create and publish stories." : lang === "es" ? "Marcas que crean y publican historias junto a YOUR." : "Marcas que produzem conteúdo e publicam matérias em parceria com a YOUR."}</p>
+            </div>
+          </div>
+          <div className="grid min-w-0 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {partnerBrands.map((brand) => {
+              const href = brand.url || `/${lang}/media-kit?brand=${encodeURIComponent(brand.id)}`;
+              const external = /^https?:\/\//i.test(href);
+              const stories = partnerStories.filter((story) => String((story.meta as { brandId?: unknown } | null)?.brandId || "") === brand.id).slice(0, 2);
+              return (
+                <article key={brand.id} className="min-w-0 rounded-2xl border border-line bg-surface p-4">
+                  <a href={href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined} className="block">
+                    <MediaTile id={brand.id} src={brand.image} ratio="r43" edit={{ entity: "item", id: brand.id, field: "image", label: `Imagem de ${tr(brand.title)}` }} />
+                    <h3 className="mt-3 font-display text-xl font-bold uppercase">{tr(brand.title)}</h3>
+                    <p className="mt-1 text-sm text-mute">{tr(brand.dek)}</p>
+                  </a>
+                  <div className="mt-3 border-t border-line pt-3">
+                    <p className="tag">{lang === "en" ? "Stories with this partner" : lang === "es" ? "Contenido de la marca" : "Matérias da marca"}</p>
+                    {stories.length ? (
+                      <ul className="mt-2 grid gap-2">
+                        {stories.map((story) => (
+                          <li key={story.id}>
+                            <Link href={`/${lang}/article/${story.id.replace(/^article-/, "")}`} className="break-words text-sm hover:text-blush">→ {tr(story.title)}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : <p className="mt-1 text-xs text-mute">{lang === "en" ? "Partner content will appear here." : lang === "es" ? "El contenido asociado aparecerá aquí." : "As matérias associadas aparecerão aqui."}</p>}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
     </>
   );
 }

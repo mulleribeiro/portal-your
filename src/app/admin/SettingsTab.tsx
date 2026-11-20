@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Api } from "./api";
+import { CONTACT_EMAIL } from "@/lib/contact";
 import { ImageField, KeyValueList, Label, MLField, Panel, TextField } from "./fields";
 import type { ML } from "./types";
 
@@ -35,7 +36,7 @@ export function SettingsTab({ api }: { api: Api }) {
       api.toast("JSON avançado inválido");
       return;
     }
-    const result = await api.save("settings", { ...draft, ...extra });
+    const result = await api.save("settings", { ...draft, ...extra, email: CONTACT_EMAIL });
     if (!result.error) api.toast("Configurações salvas");
   };
 
@@ -186,7 +187,7 @@ export function SettingsTab({ api }: { api: Api }) {
         <div className="grid gap-4">
           <div className="grid gap-3 sm:grid-cols-3">
             <TextField label="Marca (texto alternativo)" value={String(draft.brand || "")} onChange={(v) => set("brand", v)} />
-            <TextField label="E-mail" value={String(draft.email || "")} onChange={(v) => set("email", v)} />
+            <label className="block"><Label>E-mail oficial para contatos e formulários</Label><input className="field" value={CONTACT_EMAIL} readOnly /><span className="mt-1 block text-[11px] text-mute">Este endereço é o único contato oficial do portal.</span></label>
             <TextField label="Telefone / WhatsApp" value={String(draft.phone || "")} onChange={(v) => set("phone", v)} />
             <MLField label="Endereço" value={draft.address as ML} langs={langs} source={source} translate={api.translate} onChange={(v) => set("address", v)} />
           </div>

@@ -1,4 +1,5 @@
 import { FounderClient } from "@/components/FounderClient";
+import { CONTACT_EMAIL } from "@/lib/contact";
 import { loadSite } from "@/lib/data";
 
 export async function generateMetadata() {
@@ -25,7 +26,7 @@ export default async function FounderPage({ params }: { params: Promise<{ lang: 
         portraitUrl={portraitUrl}
         collageUrl={collageUrl}
         signatureUrl={signatureUrl}
-        email={String(s.email || "muller@yourmagazine.com.br")}
+        email={CONTACT_EMAIL}
       />
     </div>
   );

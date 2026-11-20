@@ -68,6 +68,7 @@ export default async function RelationsPage({ params }: { params: Promise<{ lang
   const tr = (v: Record<string, string> | null | undefined) => mlPick(site, v, lang);
   const page = pageBySlug(site, "relations");
   const s = site.settings;
+  const relationImages = (s.images || {}) as Record<string, { url?: string }>;
 
   const rawOptions = (s.relationsOptions as RelOpt[] | undefined) || [];
   const options = rawOptions.map((o) => ({
@@ -107,6 +108,8 @@ export default async function RelationsPage({ params }: { params: Promise<{ lang
             { href: `/${lang}/press`, label: lang === "en" ? "Press room" : lang === "es" ? "Sala de prensa" : "Sala de imprensa" },
             { href: `/${lang}/media-kit`, label: lang === "en" ? "Media kit" : lang === "es" ? "Media kit" : "Mídia kit" },
           ]}
+          image={relationImages.relationsHero?.url}
+          imageTarget={{ entity: "settings", id: "portal", field: "images.relationsHero.url", label: "Banner principal Media Relations" }}
         />
       </div>
 
@@ -129,14 +132,26 @@ export default async function RelationsPage({ params }: { params: Promise<{ lang
             {lang === "en" ? "See the full catalogue →" : lang === "es" ? "Ver catálogo completo →" : "Ver catálogo completo →"}
           </Link>
         </div>
-        <Ecosystem verticals={VERTICALS[lang] || VERTICALS.pt} />
+        <Ecosystem verticals={(VERTICALS[lang] || VERTICALS.pt).map((vertical, index) => {
+          const key = `relationsVertical${index + 1}`;
+          return {
+            ...vertical,
+            image: relationImages[key]?.url,
+            editTarget: { entity: "settings" as const, id: "portal", field: `images.${key}.url`, label: `Foto ${vertical.name}` },
+          };
+        })} />
       </section>
 
-      <ProcessTimeline steps={steps.length ? steps : []} img={35755252} />
+      <ProcessTimeline
+        steps={steps.length ? steps : []}
+        img={relationImages.relationsProcess?.url || 35755252}
+        imageTarget={{ entity: "settings", id: "portal", field: "images.relationsProcess.url", label: "Foto do processo Media Relations" }}
+      />
 
       <AudienceInfographic
         audiences={AUDIENCES[lang] || AUDIENCES.pt}
-        img={33317197}
+        img={relationImages.relationsAudience?.url || 33317197}
+        imageTarget={{ entity: "settings", id: "portal", field: "images.relationsAudience.url", label: "Foto da audiência Media Relations" }}
       />
 
       <PlansStrip lang={lang} budgetHref={`/${lang}/budget`} pressHref={`/${lang}/press`} />

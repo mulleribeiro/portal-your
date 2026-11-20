@@ -7,6 +7,7 @@ import { uploadImage } from "@/lib/upload-client";
 import { setAdminToken } from "@/lib/admin-session";
 import { adminFetch } from "@/lib/admin-fetch";
 import { Modal } from "./Modal";
+import { CONTACT_EMAIL } from "@/lib/contact";
 
 export type PressItem = {
   id: string;
@@ -43,7 +44,7 @@ function buildAuto600Words(title: string, dek: string, group: string, category: 
     `Produzida pela equipe editorial da YOUR Magazine sob direção de Müller Ribeiro (CEO e Editor-Chefe), a matéria combina narrativa jornalística autoral, fotografia de estúdio e curadoria multiplataforma voltada a leitores e formadores de opinião no Brasil e nos Estados Unidos.`,
     `## Destaques da Pauta\nAo longo da publicação, o conteúdo explora novas perspectivas sobre autenticidade, excelência técnica e transformação cultural, conectando marcas de prestígio e personalidades a uma audiência altamente engajada das classes A e B, que soma mais de 13,2 milhões de visualizações mensais em todo o ecossistema da revista.`,
     `## Sobre a YOUR Magazine — 10 Anos\nFeita no Brasil para o mundo há uma década, a YOUR Magazine reúne 88 edições publicadas, mais de 300 capas digitais, 218 entrevistas exclusivas, o streaming de vídeo YOUR Play e as coleções Luxury Hotels e Fine Dining. Sua rede de imprensa parceira alcança mais de 120 jornalistas e colunistas, 80 revistas, 40 rádios e podcasts e 50 portais de notícias.`,
-    `## Atendimento à Imprensa e Credenciamento\nEste release oficial (~600 palavras) e as imagens que o acompanham estão disponíveis para download e reprodução editorial mediante crédito obrigatório à YOUR Magazine. Para entrevistas, fotos em alta resolução ou pautas especiais, contate: muller@yourmagazine.com.br.`,
+    `## Atendimento à Imprensa e Credenciamento\nEste release oficial (~600 palavras) e as imagens que o acompanham estão disponíveis para download e reprodução editorial mediante crédito obrigatório à YOUR Magazine. Para entrevistas, fotos em alta resolução ou pautas especiais, contate: ${CONTACT_EMAIL}.`,
   ].join("\n\n");
 }
 
@@ -207,7 +208,7 @@ export function PressRoomClient({ items, lang }: { items: PressItem[]; lang: str
 
   return (
     <>
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
+      <div className="mt-8 flex min-w-0 max-w-full flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-2">
           {groups.map((g) => (
             <button key={g} type="button" className="chip" data-on={group === g} onClick={() => setGroup(g)}>
@@ -228,10 +229,10 @@ export function PressRoomClient({ items, lang }: { items: PressItem[]; lang: str
         </div>
       </div>
 
-      <section className="section">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="section min-w-0">
+        <div className="grid min-w-0 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((item) => (
-            <article key={item.id} className="flex flex-col justify-between rounded-2xl border border-line bg-surface p-4">
+            <article key={item.id} className="flex min-w-0 flex-col justify-between overflow-hidden rounded-2xl border border-line bg-surface p-4">
               <div>
                 <div
                   onClick={() => setActive(item)}

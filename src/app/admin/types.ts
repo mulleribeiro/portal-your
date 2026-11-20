@@ -9,6 +9,7 @@ export type AdminItem = {
 export type AdminPage = {
   slug: string; template: string; title: ML; subtitle?: ML | null; kicker?: ML | null;
   image?: string | null; blocks?: unknown[] | null; published: boolean; showInMenu: boolean; position: number;
+  previousSlug?: string; seo?: ML | null;
 };
 
 export type AdminMenu = {

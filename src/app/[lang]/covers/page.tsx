@@ -48,6 +48,7 @@ export default async function CoversPage({ params }: { params: Promise<{ lang: s
             ratio="r34"
             modalRatio="r34"
             layout="portrait"
+            directLinks
             labels={{ close: tr(site.ui["action.cancel"]), visit: tr(site.ui["action.visit"]) }}
           />
         </Suspense>

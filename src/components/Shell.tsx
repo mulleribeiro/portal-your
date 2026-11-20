@@ -4,8 +4,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SearchOverlay } from "./SearchOverlay";
+import { NewsletterSignup } from "./NewsletterSignup";
 
-export type NavItem = { href: string; label: string; icon?: string | null; badge?: string | null; group?: string | null };
+export type NavItem = { href: string; label: string; icon?: string | null; badge?: string | null; group?: string | null; kind?: string | null };
 
 export type ShellProps = {
   lang: string;
@@ -112,10 +113,18 @@ export function Shell(props: ShellProps) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const hrefOf = (href: string) => (href === "/admin" ? "/admin" : `/${props.lang}${href === "/home" || href === "/" ? "" : href}`);
+  const hrefOf = (href: string, kind?: string | null) => {
+    if (href === "/admin") return "/admin";
+    if (kind === "external" || kind === "email" || /^(https?:|mailto:|tel:)/i.test(href)) return href;
+    return `/${props.lang}${href === "/home" || href === "/" ? "" : href}`;
+  };
 
-  const isActive = (href: string) => {
-    const target = hrefOf(href);
+  const navTarget = (href: string, kind?: string | null) =>
+    kind === "external" && /^https?:\/\//i.test(href) ? { target: "_blank" as const, rel: "noreferrer" } : {};
+
+  const isActive = (href: string, kind?: string | null) => {
+    if (kind === "external" || kind === "email" || /^(https?:|mailto:|tel:)/i.test(href)) return false;
+    const target = hrefOf(href, kind);
     if (target === `/${props.lang}`) return pathname === target || pathname === `${target}/`;
     return pathname.startsWith(target);
   };
@@ -155,7 +164,7 @@ export function Shell(props: ShellProps) {
             <div key={group}>
               {group !== "—" && <h5>{group}</h5>}
               {list.map((item) => (
-                <Link key={item.href} href={hrefOf(item.href)} className="fl" data-on={isActive(item.href)} onClick={() => setOpen(false)}>
+                <Link key={`${item.href}-${item.label}`} href={hrefOf(item.href, item.kind)} {...navTarget(item.href, item.kind)} className="fl" data-on={isActive(item.href, item.kind)} onClick={() => setOpen(false)}>
                   <Icon value={item.icon} />
                   <span>{item.label}</span>
                   {item.badge ? <small>{item.badge}</small> : null}
@@ -194,7 +203,7 @@ export function Shell(props: ShellProps) {
 
             <div className="hidden flex-1 flex-wrap gap-1.5 md:flex">
               {props.topNav.map((item) => (
-                <Link key={item.href} href={hrefOf(item.href)} className="chip" data-on={isActive(item.href)}>
+                <Link key={`${item.href}-${item.label}`} href={hrefOf(item.href, item.kind)} {...navTarget(item.href, item.kind)} className="chip" data-on={isActive(item.href, item.kind)}>
                   {item.label}
                 </Link>
               ))}
@@ -212,7 +221,7 @@ export function Shell(props: ShellProps) {
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 105 11.4c1.9-.2 3.9-.6 5.5-1.9z" /></svg>
               )}
             </button>
-            <div className="flex gap-1 md:hidden">
+            <div className="flex max-w-full flex-wrap gap-1 md:hidden">
               {props.langs.map((l) => (
                 <button key={l.code} className="chip" data-on={l.code === props.lang} onClick={() => switchLang(l.code)}>{l.code.toUpperCase()}</button>
               ))}
@@ -223,7 +232,7 @@ export function Shell(props: ShellProps) {
           <main key={pathname} className="view rise">{props.children}</main>
 
           <footer className="border-t border-line px-5 py-10">
-            <div className="mx-auto grid max-w-[1320px] gap-8 md:grid-cols-[1.2fr_1fr_1fr]">
+            <div className="mx-auto grid min-w-0 max-w-[1320px] gap-8 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.2fr)]">
               <div>
                 {props.logo ? <img src={props.logo} alt={props.brand} className="footer-logo-img" /> : <b className="font-logo text-3xl lowercase">{props.brand}</b>}
                 <p className="mt-4 max-w-sm text-sm text-mute">{props.footerText}</p>
@@ -242,13 +251,16 @@ export function Shell(props: ShellProps) {
                     <ul className="grid gap-2">
                       {list.map((f) => (
                         <li key={f.href}>
-                          <Link href={`/${props.lang}${f.href}`} className="text-sm hover:text-blush">{f.label}</Link>
+                          <Link href={hrefOf(f.href, f.kind)} {...navTarget(f.href, f.kind)} className="break-words text-sm hover:text-blush">{f.label}</Link>
                         </li>
                       ))}
                     </ul>
                   </div>
                 );
               })}
+              <div className="min-w-0">
+                <NewsletterSignup lang={props.lang} source="footer" />
+              </div>
             </div>
           </footer>
         </div>

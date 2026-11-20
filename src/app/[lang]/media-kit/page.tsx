@@ -1,6 +1,8 @@
 import { Editable } from "@/components/EditProvider";
+import { EditableImage } from "@/components/EditableImage";
 import { MediaKit, type MKCopy } from "@/components/MediaKit";
 import { Kin } from "@/components/ui";
+import { CONTACT_EMAIL } from "@/lib/contact";
 import { itemsOfType, loadSite, mlPick, pageBySlug } from "@/lib/data";
 
 const COPY: Record<string, MKCopy> = {
@@ -63,7 +65,9 @@ export default async function MediaKitPage({ params }: { params: Promise<{ lang:
         </p>
       </section>
 
-      {heroImage && <div className="md r169 mt-8 max-h-[320px]"><img src={heroImage} alt="" /></div>}
+      <div className="md r169 mt-8 max-h-[320px] bg-wine">
+        <EditableImage target={{ entity: "settings", id: "portal", field: "images.mediaKitHero.url", label: "Banner do mídia kit" }} src={heroImage || null} alt="" imgClass="absolute inset-0 h-full w-full object-cover" />
+      </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
         <a href="/api/media-kit-pdf" download className="btn btn-gold">
@@ -77,7 +81,7 @@ export default async function MediaKitPage({ params }: { params: Promise<{ lang:
       <div className="mt-10">
         <MediaKit
           lang={lang}
-          email={String(s.email || "")}
+          email={CONTACT_EMAIL}
           stats={stats}
           audience={audience}
           ages={ages}

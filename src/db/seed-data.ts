@@ -1,4 +1,6 @@
 import type { PortalSettings } from "./schema";
+import { ARTICLE_CATEGORIES } from "../lib/categories";
+import { CONTACT_EMAIL } from "../lib/contact";
 import ref from "./reference/reference.json";
 import catalogData from "./reference/catalog.json";
 
@@ -27,12 +29,7 @@ export type SeedItem = {
   position?: number;
 };
 
-export const CATEGORIES = [
-  "Design", "Moda", "Celebridades", "Turismo", "Sustentabilidade", "Tecnologia", "Eventos",
-  "Cultura", "Luxo", "Música", "Séries / TV", "Internacional", "Mercado", "Saúde",
-  "Fotografia", "Beleza", "Esportes", "Arte & Design", "Motor", "Gastronomia", "Vinhos", "Carreira & Cultura",
-  "Comportamento", "Bem-estar", "Hotelaria", "Capa",
-];
+export const CATEGORIES = [...ARTICLE_CATEGORIES];
 
 const px = (id: number, w = 1200, h = 800) =>
   `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=${w}&h=${h}`;
@@ -58,7 +55,7 @@ export const seedSettings: PortalSettings = {
     "Magazine, issues, covers, videos, hotel and dining collections and PR in a single address. Scroll and choose where to start.",
     "Revista, ediciones, portadas, vídeos, colecciones de hoteles y gastronomía y relaciones públicas en un solo lugar. Desplázate y elige por dónde empezar.",
   ),
-  email: "muller@yourmagazine.com.br",
+  email: CONTACT_EMAIL,
   phone: "+55 11 95000-1000",
   address: ml("São Paulo · New York City", "São Paulo · New York City", "São Paulo · Nueva York"),
   footerText: ml(
@@ -170,6 +167,14 @@ export const seedSettings: PortalSettings = {
     hotelsHero: { label: "Banner Luxury Hotels", url: ref.hotelHero || "" },
     diningHero: { label: "Banner Fine Dining", url: ref.dining.hero || "" },
     mediaKitHero: { label: "Banner do mídia kit", url: "" },
+    relationsHero: { label: "Banner principal Media Relations", url: "" },
+    relationsProcess: { label: "Foto do processo Media Relations", url: "" },
+    relationsAudience: { label: "Foto da audiência Media Relations", url: "" },
+    relationsVertical1: { label: "Foto YOUR Magazine", url: "" },
+    relationsVertical2: { label: "Foto YOUR Press", url: "" },
+    relationsVertical3: { label: "Foto YOUR Newswire", url: "" },
+    relationsVertical4: { label: "Foto YOUR Content Studio", url: "" },
+    relationsVertical5: { label: "Foto YOUR Media Network", url: "" },
     playHero: { label: "Banner do YOUR Play", url: "" },
     founderPortrait: { label: "Foto retrato d'O Fundador", url: "/brand/muller-1.jpeg" },
     founderCollage: { label: "Mosaico de carreira d'O Fundador", url: "/brand/muller-0.jpeg" },
@@ -223,6 +228,7 @@ export const seedMenu = [
   { area: "rail", group: "Comercial & PR", icon: "R", badge: "", kind: "route", href: "/media-kit", label: ml("Mídia kit", "Media kit", "Media kit") },
   { area: "rail", group: "Comercial & PR", icon: "O", badge: "novo", kind: "route", href: "/budget", label: ml("Orçamento", "Quote", "Presupuesto") },
   { area: "rail", group: "Comercial & PR", icon: "C", badge: "", kind: "route", href: "/relacionamento", label: ml("Relacionamento", "Contact & Feedback", "Relacionamiento") },
+  { area: "rail", group: "Comercial & PR", icon: "✉", badge: "", kind: "route", href: "/subscribe", label: ml("Assine a YOUR", "Subscribe to YOUR", "Suscríbete a YOUR") },
   { area: "rail", group: "Gestão", icon: "A", badge: "", kind: "route", href: "/admin", label: ml("Admin", "Admin", "Admin") },
 
   { area: "top", group: null, icon: "", badge: "", kind: "route", href: "/news", label: ml("News", "News", "Noticias") },
@@ -392,8 +398,8 @@ export const seedPages = [
     title: ml("Privacidade", "Privacy", "Privacidad"),
     kicker: ml("Legal", "Legal", "Legal"),
     blocks: [
-      { type: "paragraph", text: ml("Coletamos apenas os dados necessários para operar o portal: preferências de idioma e tema, métricas de leitura e contatos enviados pelos formulários.", "We collect only the data needed to run the portal: language and theme preferences, reading metrics and contacts sent through forms.", "Recogemos solo los datos necesarios para operar el portal: preferencias de idioma y tema, métricas de lectura y contactos enviados por formularios.") },
-      { type: "paragraph", text: ml("Você pode solicitar a exclusão dos seus dados a qualquer momento pelo e-mail da redação: muller@yourmagazine.com.br.", "You may request deletion of your data at any time via the newsroom email: muller@yourmagazine.com.br.", "Puede solicitar la eliminación de sus datos en cualquier momento por correo a la redacción: muller@yourmagazine.com.br.") },
+      { type: "paragraph", text: ml("Coletamos apenas os dados necessários para operar o portal: preferências de idioma e tema, métricas de leitura, contatos enviados pelos formulários e e-mails cadastrados no Clube YOUR mediante consentimento.", "We collect only the data needed to run the portal: language and theme preferences, reading metrics, form submissions and email addresses registered with the YOUR Club with consent.", "Recogemos solo los datos necesarios para operar el portal: preferencias de idioma y tema, métricas de lectura, contactos enviados por formularios y correos registrados en el Club YOUR con consentimiento.") },
+      { type: "paragraph", text: ml("Você pode cancelar o recebimento de novidades ou solicitar a exclusão dos seus dados a qualquer momento pelo e-mail da redação: muller@yourmagazine.com.br.", "You may unsubscribe from email updates or request deletion of your data at any time via the newsroom email: muller@yourmagazine.com.br.", "Puede cancelar las novedades por correo o solicitar la eliminación de sus datos en cualquier momento escribiendo a la redacción: muller@yourmagazine.com.br.") },
     ],
   },
   {

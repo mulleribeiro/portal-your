@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Editable } from "@/components/EditProvider";
+import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { Kin, MediaTile, Stats } from "@/components/ui";
 import { loadSite, mlPick, pageBySlug } from "@/lib/data";
 
@@ -116,6 +117,12 @@ export default async function CustomPage({ params }: { params: Promise<{ lang: s
           }
         })}
       </section>
+
+      {page.slug === "subscribe" ? (
+        <section className="section mx-auto w-full max-w-3xl">
+          <NewsletterSignup lang={lang} source="subscribe-page" variant="card" />
+        </section>
+      ) : null}
     </>
   );
 }

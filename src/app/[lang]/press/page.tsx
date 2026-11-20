@@ -3,6 +3,7 @@ import { PitchPanel } from "@/components/PitchPanel";
 import { PressRoomClient, type PressItem } from "@/components/PressRoomClient";
 import { Kin, Stats } from "@/components/ui";
 import { ensureItemsTranslated, itemsOfType, loadSite, mlPick, pageBySlug } from "@/lib/data";
+import { CONTACT_EMAIL } from "@/lib/contact";
 
 export default async function PressPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -68,7 +69,7 @@ export default async function PressPage({ params }: { params: Promise<{ lang: st
         />
       </section>
 
-      <PitchPanel lang={lang} email={String(site.settings.email || "muller@yourmagazine.com.br")} />
+      <PitchPanel lang={lang} email={CONTACT_EMAIL} />
 
       <PressRoomClient items={pressItems} lang={lang} />
     </>

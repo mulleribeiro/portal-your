@@ -156,6 +156,20 @@ export const pitches = pgTable("pitches", {
 
 export type PitchRow = typeof pitches.$inferSelect;
 
+/** Newsletter subscriptions with explicit consent and a normalized unique email. */
+export const emailSubscribers = pgTable("email_subscribers", {
+  id: serial("id").primaryKey(),
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  name: text("name"),
+  source: varchar("source", { length: 80 }).notNull().default("footer"),
+  lang: varchar("lang", { length: 8 }).notNull().default("pt"),
+  consentAt: timestamp("consent_at", { withTimezone: true }).defaultNow().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+});
+
+export type EmailSubscriberRow = typeof emailSubscribers.$inferSelect;
+
 /** Shape of the portal settings document. */
 export type PortalSettings = {
   version?: number;

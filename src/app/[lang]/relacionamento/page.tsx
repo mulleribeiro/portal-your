@@ -4,6 +4,7 @@ import { RelacionamentoClient } from "@/components/RelacionamentoClient";
 import { FaqSection } from "@/components/FaqSection";
 import { Kin, MediaTile } from "@/components/ui";
 import { itemsOfType, loadSite, mlPick, pageBySlug } from "@/lib/data";
+import { CONTACT_EMAIL } from "@/lib/contact";
 
 export async function generateMetadata() {
   return {
@@ -98,15 +99,15 @@ export default async function RelacionamentoPage({ params }: { params: Promise<{
               ? "si envías por correo postal, por favor avísanos por correo e incluye el código de rastreo."
               : "se for enviar via Correios, por favor, nos notifique por e-mail e inclua o código de rastreio."}
             {" "}
-            <a className="not-italic underline" href={`mailto:${String(s.email || "muller@yourmagazine.com.br")}`}>{String(s.email || "muller@yourmagazine.com.br")}</a>
+            <a className="not-italic underline" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
           </p>
         </div>
       </section>
 
-      <FaqSection lang={lang} email={String(s.email || "muller@yourmagazine.com.br")} />
+      <FaqSection lang={lang} email={CONTACT_EMAIL} />
 
       <section className="section" id="formulario-contato">
-        <RelacionamentoClient lang={lang} email={String(s.email || "muller@yourmagazine.com.br")} />
+        <RelacionamentoClient lang={lang} email={CONTACT_EMAIL} />
       </section>
 
       {videos.length > 0 && (
